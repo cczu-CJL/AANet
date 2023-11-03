@@ -1,5 +1,3 @@
-# hmanet: Volumetric Medical Image Segmentation via a 3D Transformer
-
 ---
 ## Installation
 #### 1. System requirements
