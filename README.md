@@ -17,28 +17,28 @@ pip install -e .
 
 #### 3. Functions of scripts and folders
 - **For evaluation:**
-  - ``hmanet/hmanet/inference_acdc.py``
+  - ``HMANet/hmanet/inference_acdc.py``
   
-  - ``hmanet/hmanet/inference_synapse.py``
+  - ``HMANet/hmanet/inference_synapse.py``
     
 - **Data split:**
   - ``hmanet/hmanet/dataset_json/``
   
 - **For inference:**
-  - ``hmanet/hmanet/inference/predict_simple.py``
+  - ``HMANet/hmanet/inference/predict_simple.py``
   
 - **Network architecture:**
-  - ``hmanet/hmanet/network_architecture/hmanet_acdc.py``
+  - ``HMANet/hmanet/network_architecture/hmanet_acdc.py``
   
-  - ``hmanet/hmanet/network_architecture/hmanet_synapse.py.py``
+  - ``HMANet/hmanet/network_architecture/hmanet_synapse.py.py``
     
 - **For training:**
-  - ``hmanet/hmanet/run/run_training.py``
+  - ``HMANet/hmanet/run/run_training.py``
   
 - **Trainer for dataset:**
-  - ``hmanet/hmanet/training/network_training/hmanetTrainerV2_hmanet_acdc.py``
+  - ``HMANet/hmanet/training/network_training/hmanetTrainerV2_hmanet_acdc.py``
   
-  - ``hmanet/hmanet/training/network_training/hmanetTrainerV2_hmanet_synapse.py.py``
+  - ``HMANet/hmanet/training/network_training/hmanetTrainerV2_hmanet_synapse.py.py``
   
 ---
 
@@ -58,7 +58,6 @@ Datasets can be acquired via following links:
 After you have downloaded the datasets, you can follow the settings in [nnUNet](https://github.com/MIC-DKFZ/nnUNet/blob/master/documentation/dataset_conversion.md) for path configurations and preprocessing procedures. Finally, your folders should be organized as follows:
 
 ```
-./Pretrained_weight/
 ./hmanet/
 ./DATASET/
   ├── hmanet_raw/
@@ -85,7 +84,7 @@ After you have downloaded the datasets, you can follow the settings in [nnUNet](
   ├── hmanet_trained_models/
   ├── hmanet_preprocessed/
 ```
-You can refer to ``hmanet/hmanet/dataset_json/`` for data split.
+You can refer to ``HMANet/hmanet/dataset_json/`` for data split.
 
 After that, you can preprocess the above data using following commands:
 ```
@@ -102,7 +101,7 @@ hmanet_plan_and_preprocess -t 2
 ```
 bash train_inference.sh -c 0 -n hmanet_acdc -t 1 
 #-c stands for the index of your cuda device
-#-n denotes the suffix of the trainer located at hmanet/hmanet/training/network_training/
+#-n denotes the suffix of the trainer located at HMANet/hmanet/training/network_training/
 #-t denotes the task index
 ```
 If you want use your own data, please create a new trainer file in the path ```hmanet/training/network_training``` and make sure the class name in the trainer file is the same as the trainer file. Some hyperparameters could be adjust in the trainer file, but the batch size and crop size should be adjust in the file```hmanet/run/default_configuration.py```.
@@ -118,4 +117,4 @@ If you want use your own data, please create a new trainer file in the path ```h
 ```
 input feature has wrong size
 ```
-If you encounter this problem during your implementation, please check the code in ``hmanet/hmanet/run/default_configuration.py``. I have set independent crop size (i.e., patch size) for each dataset. You may need to modify the crop size based on your own need.
+If you encounter this problem during your implementation, please check the code in ``HMANet/hmanet/run/default_configuration.py``. I have set independent crop size (i.e., patch size) for each dataset. You may need to modify the crop size based on your own need.
