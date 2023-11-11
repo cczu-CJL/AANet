@@ -39,7 +39,7 @@ from batchgenerators.utilities.file_and_folder_operations import *
 
 
     
-class hmanetTrainerV2_MPFNet_synapse(hmanetTrainer_synapse):
+class hmanetTrainerV2_hmanet_synapse(hmanetTrainer_synapse):
     """
     Info for Fabian: same as internal nnUNetTrainerV2_2
     """
