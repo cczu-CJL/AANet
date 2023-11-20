@@ -72,7 +72,8 @@ class hmanetTrainerV2_hmanet_acdc(hmanetTrainer):
         self.embedding_patch_size=[1,4,4]
         self.window_size=[[3,5,5],[3,5,5],[7,10,10],[3,5,5]]
         self.down_stride=[[1,4,4],[1,8,8],[2,16,16],[4,32,32]]
-        self.deep_supervision=False
+        # self.deep_supervision=False
+        self.deep_supervision=True
     def initialize(self, training=True, force_load_plans=False):
         """
         - replaced get_default_augmentation with get_moreDA_augmentation
