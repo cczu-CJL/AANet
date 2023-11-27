@@ -49,7 +49,7 @@ class DecoderConv_AttenBlock(nn.Module):
                 nn.InstanceNorm3d(out_channels, eps=1e-5, affine=True))
         elif tag==2:
             self.up = nn.Sequential(
-                nn.ConvTranspose3d(in_channels, out_channels, [2,2,2],[2,2,2],output_padding=[1,0,0]),
+                nn.ConvTranspose3d(in_channels, out_channels, [1, 2, 2], [1, 2, 2]),
                 nn.InstanceNorm3d(out_channels, eps=1e-5, affine=True))
 
     def forward(self, x, skip):
@@ -445,7 +445,7 @@ class hmanet(SegmentationNetwork):
     def __init__(self, crop_size=[14, 160, 160], embedding_dim=48, input_channels=1, num_classes=13, conv_op=nn.Conv3d,
                  depths=(2, 2, 2, 2), num_heads=(2, 4, 8, 16), patch_size=(1, 4, 4),
                  window_size=(7, 7, 7, 7),  # window_size=(4,4,8,4),
-                 deep_supervision=False, mlp_ratio=4., qkv_bias=True,
+                 deep_supervision=True, mlp_ratio=4., qkv_bias=True,
                  drop_rate=0., attn_drop_rate=0., drop_path_rate=0.1,  # drop_path_rate=0.1,
                  norm_layer=nn.LayerNorm,  # patch_norm=True,
                  use_checkpoint=False, **kwargs):
@@ -463,27 +463,27 @@ class hmanet(SegmentationNetwork):
             patch_size=patch_size, in_chans=input_channels, embed_dim=embed_dim*2)
 
         self.encoder1 = nn.Sequential(
-            *([Conv_Atten_inverse_Layer(embed_dim * 2, 2, window_size=[3, 5, 5], spatial_kernel=9, topk=8) for _ in range(depths[0])]))
+            *([Conv_Atten_inverse_Layer(embed_dim * 2, 2, window_size=[7, 5, 5], spatial_kernel=9, topk=6) for _ in range(depths[0])]))
 
         self.down2 = BasicResBlock(embed_dim * 2, embed_dim * 4, [1,3,3], [1,2,2], [0,1,1], True)
         self.encoder2 = nn.Sequential(
-            *([Conv_Atten_inverse_Layer(embed_dim * 4, 4, window_size=[3, 5, 5], spatial_kernel=7, topk=8) for _ in range(depths[1])]))
+            *([Conv_Atten_inverse_Layer(embed_dim * 4, 4, window_size=[7, 5, 5], spatial_kernel=7, topk=3) for _ in range(depths[1])]))
 
         self.down3 = BasicResBlock(embed_dim * 4, embed_dim * 8, [3,3,3],[2,2,2],[1,1,1], True)
         self.encoder3 = nn.Sequential(
             *([Conv_Atten_inverse_Layer(embed_dim * 8, 8, window_size=[7, 10, 10], spatial_kernel=5, topk=1) for _ in range(depths[2])]))
 
 
-        self.down4 = DownConv(embed_dim * 8, embed_dim * 16, kernel_size=[3,3,3],stride=[2,2,2],padding=[0,1,1])
+        self.down4 = DownConv(embed_dim * 8, embed_dim * 16, kernel_size=[1,3,3],stride=[1,2,2],padding=[0,1,1])
         self.encoder4 = nn.Sequential(
-            *([Conv_Atten_inverse_Layer(embed_dim * 16, 16, window_size=[3, 5, 5], spatial_kernel=3, topk=1) for _ in range(depths[3])]))
+            *([Conv_Atten_inverse_Layer(embed_dim * 16, 16, window_size=[7, 5, 5], spatial_kernel=3, topk=1) for _ in range(depths[3])]))
 
 
         self.ups0 = DecoderConv_AttenBlock([7, 10, 10], embed_dim * 16, embed_dim * 8, embed_dim * 8, head=8, depths=depths[2], spatial_kernel=5, topk=1, tag=2)
-        self.ups1 = DecoderConv_AttenBlock([3, 5, 5], embed_dim * 8, embed_dim * 4, embed_dim * 4, head=4, depths=depths[1], spatial_kernel=7, topk=8, tag=1)
-        self.ups2 = DecoderConv_AttenBlock([3, 5, 5], embed_dim * 4, embed_dim * 2, embed_dim * 2,head=2, depths=depths[0], spatial_kernel=9, topk=8, tag=0)
+        self.ups1 = DecoderConv_AttenBlock([7, 5, 5], embed_dim * 8, embed_dim * 4, embed_dim * 4, head=4, depths=depths[1], spatial_kernel=7, topk=3, tag=1)
+        self.ups2 = DecoderConv_AttenBlock([7, 5, 5], embed_dim * 4, embed_dim * 2, embed_dim * 2,head=2, depths=depths[0], spatial_kernel=9, topk=6, tag=0)
 
-        self.ups16 = nn.ConvTranspose3d(embed_dim * 8, num_classes, (1, 4, 4), (1, 4, 4))
+        self.ups16 = nn.ConvTranspose3d(embed_dim * 8, num_classes, (2, 4, 4), (2, 4, 4))
         self.ups8 = nn.ConvTranspose3d(embed_dim * 4, num_classes, (1, 4, 4), (1, 4, 4))
         self.ups4 = nn.ConvTranspose3d(embed_dim * 2, num_classes, (1, 4, 4), (1, 4, 4))
     def forward(self, input):
