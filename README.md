@@ -17,28 +17,28 @@ pip install -e .
 
 #### 3. Functions of scripts and folders
 - **For evaluation:**
-  - ``HMANet/hmanet/inference_acdc.py``
+  - ``AANet/hmanet/inference_acdc.py``
   
-  - ``HMANet/hmanet/inference_synapse.py``
+  - ``AANet/hmanet/inference_synapse.py``
     
 - **Data split:**
-  - ``hmanet/hmanet/dataset_json/``
+  - ``AANet/hmanet/dataset_json/``
   
 - **For inference:**
-  - ``HMANet/hmanet/inference/predict_simple.py``
+  - ``AANet/hmanet/inference/predict_simple.py``
   
 - **Network architecture:**
-  - ``HMANet/hmanet/network_architecture/hmanet_acdc.py``
+  - ``AANet/hmanet/network_architecture/hmanet_acdc.py``
   
-  - ``HMANet/hmanet/network_architecture/hmanet_synapse.py.py``
+  - ``AANet/hmanet/network_architecture/hmanet_synapse.py.py``
     
 - **For training:**
-  - ``HMANet/hmanet/run/run_training.py``
+  - ``AANet/hmanet/run/run_training.py``
   
 - **Trainer for dataset:**
-  - ``HMANet/hmanet/training/network_training/hmanetTrainerV2_hmanet_acdc.py``
+  - ``AANet/hmanet/training/network_training/hmanetTrainerV2_hmanet_acdc.py``
   
-  - ``HMANet/hmanet/training/network_training/hmanetTrainerV2_hmanet_synapse.py.py``
+  - ``AANet/hmanet/training/network_training/hmanetTrainerV2_hmanet_synapse.py.py``
   
 ---
 
