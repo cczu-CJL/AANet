@@ -8,7 +8,7 @@ This software leverages graphical processing units (GPUs) to accelerate neural n
 #### 2. Installation guide
 We recommend installation of the required packages using the conda package manager, available through the Anaconda Python distribution. Anaconda is available free of charge for non-commercial use through [Anaconda Inc](https://www.anaconda.com/products/individual). After installing Anaconda and cloning this repository, For use as integrative framework：
 ```
-git clone https://github.com/cczu-CJL/HMANet.git
+git clone https://github.com/cczu-CJL/AANet.git
 cd hmanet
 conda env create -f environment.yml
 source activate hmanet
